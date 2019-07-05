@@ -6,6 +6,7 @@
 // @author       Zeusro
 // @supportURL   https://github.com/zeusro
 // @match        *://www.dnspod.cn/console/dns/*
+// @match        *://www.dnspod.cn/console/dns
 // @grant        none
 // @license      GPL-3.0-or-later
 // @compatible   chrome
@@ -18,55 +19,77 @@
     //等待iframe加载
     setTimeout(function () {
         main()
+       
     }, 2500)
 
-    //由于切换域名是 iframe 操作,这里偷懒直接每1秒重新设定所有事件
+
+    // fixme: 由于切换域名是 iframe 操作,这里偷懒直接每1秒重新设定所有事件
+    // 这里应该监听左侧的点击,但由于是iframe 实现起来略麻烦,
     setInterval(function () {
+        main()
+    }, 1000);
+
+
+    // let options = {
+    //     'childList': true,
+    //     'attributes': true
+    // };
+    // let observer = new MutationObserver(main);
+    // observer.observe(document.body, options);
+
+
+    function main() {
         getCurrentDocument()
         changetWindow()
         //把样式加到 iframe 里面
         addGlobalStyle_1080p()
         fixEditBehavior()
         fixAddBehavior()
+    }
 
-    }, 1000);
-
-    function main(){
-
+    function listenClickInIfame() {
+        if (!currentDocument) {
+            return
+        }
+        currentDocument.getElementById("sidebar").addEventListener("click", function () {
+            main()
+        })
     }
 
     function changetWindow() {
         if (!currentDocument) {
             getCurrentDocument()
         }
-        var page = currentDocument.getElementById("page")
         // 调整容器
-        var container = currentDocument.getElementsByClassName("container")[0]
-        if (container) {
-            console.log("set container")
-            container.setAttribute("style", "width:100%")
+        var containers = currentDocument.getElementsByClassName("container")
+        if (!containers) {
+            return
         }
+        // console.log("set containers")
+        containers[0].setAttribute("style", "width:100%")
         var main = currentDocument.getElementById('main')
         if (main) {
-            console.log("set main")
+            // console.log("set main")
             main.setAttribute("style", "width:80%")
         }
         // 调整表格头
         var recordHeader = currentDocument.getElementsByClassName('RecordHeader')[0]
         if (recordHeader) {
-            console.log("set recordHeader")
+            // console.log("set recordHeader")
             recordHeader.setAttribute("style", "width:100%")
         }
         //TODO:适配多种常用分辨率
         var screen_height = screen.height;
         var screen_width = screen.width
         if (screen_width >= 1920 && screen_height >= 1080) {
+            // console.log("setTableStyle_1080p")
             setTableStyle_1080p()
         }
 
     }
 
     function setTableStyle_1080p() {
+        //table头
         var innerRecordHeader = currentDocument.getElementsByClassName('record-header')[0]
         //主机记录宽度
         var sub_domain = '300px'
@@ -83,6 +106,7 @@
             var entry_names = currentDocument.getElementsByClassName("entry-name")
             var entry_values = currentDocument.getElementsByClassName("entry-value")
             var entry_types = currentDocument.getElementsByClassName("entry-type")
+            //数据列
             for (var i = 0; i < entry_names.length; i++) {
                 //设置主机记录列宽度
                 entry_names[i].setAttribute("width", sub_domain)
@@ -101,6 +125,9 @@
 
     function fixEditBehavior() {
         var entrys = currentDocument.getElementsByClassName("entry")
+        if (!entrys) {
+            return
+        }
         for (var i = 0; i < entrys.length; i++) {
             entrys[i].addEventListener("click", function () {
                 // console.log("entry click")
@@ -123,7 +150,11 @@
     }
 
     function fixAddBehavior() {
-        currentDocument.getElementById("create-record").addEventListener("click", function () {
+        var createRecord = currentDocument.getElementById("create-record")
+        if (!createRecord) {
+            return
+        }
+        createRecord.addEventListener("click", function () {
             console.log("create-record")
             getCurrentDocument()
             setTimeout(function () {
@@ -173,7 +204,6 @@
         .entry-line span {
             width: 95px;
         }
-
         
         `
         var head, style;
@@ -197,7 +227,7 @@
             return
         }
         if (iframe) {
-            console.log("iframe 加载完毕")
+            // console.log("iframe 加载完毕")
             currentDocument = iframe.contentWindow.document
         } else {
             currentDocument = document
