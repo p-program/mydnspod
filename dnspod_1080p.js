@@ -29,7 +29,6 @@
         main()
     }, 1000);
 
-
     // let options = {
     //     'childList': true,
     //     'attributes': true
