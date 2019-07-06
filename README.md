@@ -1,8 +1,8 @@
 # mydnspod
 
-dnspod这个770px宽度的域名配置页真的恶心到我了,我决定把他改长一点.
+[油猴插件地址/安装方式](https://greasyfork.org/zh-CN/scripts/387189-zeusro-%E5%AE%BD%E7%89%88-dnspod-cn)
 
-油猴脚本,适配1080p屏幕
+让 dnspod 适配 1080p 屏幕
 
 ## 效果
 
@@ -16,7 +16,3 @@ dnspod这个770px宽度的域名配置页真的恶心到我了,我决定把他�
 ## 吐槽
 
 域名配置页用了iframe加载来实现局部更新,而且过了一段时间之后iframe会消失,导致开发难度加大;页面布局一会用css,一会用内联CSS,我也是很郁闷.
-
-## 油猴地址
-
-https://greasyfork.org/zh-CN/scripts/387189-zeusro-%E5%AE%BD%E7%89%88-dnspod-cn
