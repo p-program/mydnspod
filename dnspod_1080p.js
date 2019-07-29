@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         [Zeusro]宽版 dnspod.cn
 // @namespace    https://www.zeusro.tech/
-// @version      0.2.1
+// @version      1.0.0
 // @description  魔改 dnspod 域名配置页
 // @author       Zeusro
 // @supportURL   https://github.com/zeusro
 // @match        *://www.dnspod.cn/console/dns/*
 // @match        *://www.dnspod.cn/console/dns
+// @match        *://www.dnspod.cn/console/*
 // @grant        none
 // @license      GPL-3.0-or-later
 // @compatible   chrome
@@ -18,8 +19,7 @@
 
     //等待iframe加载
     setTimeout(function () {
-        main()
-       
+        main()       
     }, 2500)
 
 
@@ -65,6 +65,9 @@
             return
         }
         // console.log("set containers")
+        if(!containers[0]){
+            return
+        }
         containers[0].setAttribute("style", "width:100%")
         var main = currentDocument.getElementById('main')
         if (main) {
@@ -134,12 +137,13 @@
                     this.childNodes[1].childNodes &&
                     this.childNodes[1].childNodes[1].childNodes &&
                     this.childNodes[1].childNodes[1].childNodes[9]) {
-                    checkCurrentDocument()
-                    console.log("记录类型")
+                    // checkCurrentDocument()
+                    // if (!currentDocument) {
+                    //     getCurrentDocument()
+                    // }
                     //记录类型                
                     this.childNodes[1].childNodes[1].childNodes[5].childNodes[1].setAttribute("style", "width: 100px;")
                     //记录值
-                    console.log("记录值")
                     this.childNodes[1].childNodes[1].childNodes[9].childNodes[1].setAttribute("style", "width: 278px;")
                 }
                 fixCancelBehavior()
@@ -154,15 +158,14 @@
             return
         }
         createRecord.addEventListener("click", function () {
-            console.log("create-record")
-            getCurrentDocument()
+            // console.log("create-record")
+            // getCurrentDocument()
             setTimeout(function () {
                 var entryList = currentDocument.getElementsByClassName("entry")
                 if (!entryList || !entryList[0]) {
-                    console.log("no entry")
+                    console.warn("no entry")
                     return
                 }
-                console.dir(entryList[0])
                 //记录类型                            
                 entryList[0].childNodes[1].childNodes[5].childNodes[1].setAttribute("style", "width: 100px;")
                 //记录值
@@ -185,12 +188,6 @@
                 // console.log("cancel click")
                 setTableStyle_1080p()
             })
-        }
-    }
-
-    function checkCurrentDocument() {
-        if (!currentDocument) {
-            getCurrentDocument()
         }
     }
 
