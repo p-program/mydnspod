@@ -1,4 +1,6 @@
-# mydnspod
+# mydnspod(过期)
+
+2019-10-17 左右,dnspod已经更新了新官网,该脚本失效.
 
 [油猴插件地址/安装方式](https://greasyfork.org/zh-CN/scripts/387189-zeusro-%E5%AE%BD%E7%89%88-dnspod-cn)
 
